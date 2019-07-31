@@ -1,0 +1,27 @@
+# https://taskfile.dev
+
+version: '2'
+
+tasks:
+  login:
+    desc: Login to Docker Hub.
+    cmds:
+      - echo "Login to Docker Hub ..."
+      - docker login docker.io
+    silent: true
+
+  create:
+    deps: [login]
+    desc: Create a Docker image.
+    cmds:
+      - echo "Create a Docker build image for building projects using ddsgok libraries ..."
+      - docker build -t {{ toSlash "ddsdok/goserve" }} .
+    silent: true
+
+  push:
+    deps: [create]
+    desc: Push Docker image to Docker Hub repo.
+    cmds:
+      - echo "Pushing Docker image on repo ..."
+      - docker push {{ toSlash "ddsdok/goserve" }}
+    silent: true
