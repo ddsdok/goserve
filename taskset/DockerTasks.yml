@@ -10,16 +10,18 @@ tasks:
       - docker login docker.io
     silent: true
 
-  create:
+  build:
     deps: [login]
-    desc: Create a Docker image.
+    desc: Builds a Docker image.
     cmds:
-      - echo "Create a Docker build image for building projects using ddsgok libraries ..."
+      - echo "Building a Docker build image for building projects using ddsgok libraries ..."
       - docker build -t {{ toSlash "ddsdok/goserve" }} .
     silent: true
+    env:
+      DOCKER_BUILDKIT: 1
 
   push:
-    deps: [create]
+    deps: [build]
     desc: Push Docker image to Docker Hub repo.
     cmds:
       - echo "Pushing Docker image on repo ..."
